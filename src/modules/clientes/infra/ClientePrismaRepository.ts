@@ -5,12 +5,20 @@ import { Cliente as ClienteRow } from '@prisma/client';
 
 export class ClientePrismaRepository implements ClienteRepository {
   async findAll(): Promise<Cliente[]> {
-    const rows = await prisma.cliente.findMany();
+    const rows = await prisma.cliente.findMany({
+      where: { ativo: true }, // só ativos
+    });
     return rows.map(this.toDomain);
   }
 
   async findById(id: number): Promise<Cliente | null> {
-    const row = await prisma.cliente.findUnique({ where: { id } });
+    const row = await prisma.cliente.findFirst({
+      where: {
+        id,
+        ativo: true, // só se estiver ativo
+      },
+    });
+    if (!row) return null;
     return row ? this.toDomain(row) : null;
   }
 
@@ -19,7 +27,8 @@ export class ClientePrismaRepository implements ClienteRepository {
       data: {
         nome: cliente.nome,
         email: cliente.email,
-        saldo: cliente.saldo
+        saldo: cliente.saldo,
+        ativo: true
       }
     });
     return this.toDomain(created);
@@ -41,7 +50,12 @@ export class ClientePrismaRepository implements ClienteRepository {
   }
 
   async delete(id: number): Promise<void> {
-    await prisma.cliente.delete({ where: { id } });
+    await prisma.cliente.update({
+      where: { id },
+      data: {
+        ativo: false,
+      },
+    });
   }
 
   private toDomain(row: ClienteRow): Cliente {
