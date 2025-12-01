@@ -1,0 +1,163 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-01-01T00:00:00.000Z",
+  "__export_source": "chatgpt-generated",
+  "resources": [
+    {
+      "_id": "wrk_conta_corrente_api_2025",
+      "_type": "workspace",
+      "name": "Conta Corrente API",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_conta_corrente_api_base",
+      "_type": "environment",
+      "parentId": "wrk_conta_corrente_api_2025",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3000",
+        "correlationId": "550e8400-e29b-41d4-a716-446655440001",
+        "idempotencyKey": "idemp-{{uuid}}"
+      }
+    },
+    {
+      "_id": "req_listar_clientes",
+      "_type": "request",
+      "parentId": "wrk_conta_corrente_api_2025",
+      "name": "Listar clientes",
+      "method": "GET",
+      "url": "{{ base_url }}/clientes",
+      "headers": [
+        {
+          "name": "X-Correlation-Id",
+          "value": "{{ correlationId }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_buscar_cliente",
+      "_type": "request",
+      "parentId": "wrk_conta_corrente_api_2025",
+      "name": "Buscar cliente por ID",
+      "method": "GET",
+      "url": "{{ base_url }}/clientes/1",
+      "headers": [
+        {
+          "name": "X-Correlation-Id",
+          "value": "{{ correlationId }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_criar_cliente",
+      "_type": "request",
+      "parentId": "wrk_conta_corrente_api_2025",
+      "name": "Criar cliente",
+      "method": "POST",
+      "url": "{{ base_url }}/clientes",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Fulano de Tal\",\n  \"email\": \"fulano{{ uuid }}@test.com\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "X-Correlation-Id",
+          "value": "{{ correlationId }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_atualizar_cliente",
+      "_type": "request",
+      "parentId": "wrk_conta_corrente_api_2025",
+      "name": "Atualizar cliente",
+      "method": "PUT",
+      "url": "{{ base_url }}/clientes/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Fulano Atualizado\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "X-Correlation-Id",
+          "value": "{{ correlationId }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_excluir_cliente",
+      "_type": "request",
+      "parentId": "wrk_conta_corrente_api_2025",
+      "name": "Excluir cliente",
+      "method": "DELETE",
+      "url": "{{ base_url }}/clientes/1",
+      "headers": [
+        {
+          "name": "X-Correlation-Id",
+          "value": "{{ correlationId }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_depositar",
+      "_type": "request",
+      "parentId": "wrk_conta_corrente_api_2025",
+      "name": "Depositar",
+      "method": "POST",
+      "url": "{{ base_url }}/clientes/1/depositar",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"valor\": 100.50\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "X-Correlation-Id",
+          "value": "{{ correlationId }}"
+        },
+        {
+          "name": "Idempotency-Key",
+          "value": "{{ idempotencyKey }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_sacar",
+      "_type": "request",
+      "parentId": "wrk_conta_corrente_api_2025",
+      "name": "Sacar",
+      "method": "POST",
+      "url": "{{ base_url }}/clientes/1/sacar",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"valor\": 50\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "X-Correlation-Id",
+          "value": "{{ correlationId }}"
+        },
+        {
+          "name": "Idempotency-Key",
+          "value": "{{ idempotencyKey }}"
+        }
+      ]
+    }
+  ]
+}
